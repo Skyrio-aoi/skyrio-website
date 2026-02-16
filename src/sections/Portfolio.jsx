@@ -3,38 +3,55 @@ import { webProjects, dataProjects } from "../data/portfolio";
 
 function ProjectCard({ p }) {
   return (
-    <div className="card" style={{ padding: 14 }}>
-      <div style={{ fontWeight: 900 }}>{p.title}</div>
-      <div className="muted" style={{ marginTop: 6, lineHeight: 1.7 }}>{p.desc}</div>
+    <div className="card project-card" style={{ padding: 14 }}>
+      {/* Thumbnail (preview-only, non-clickable) */}
+      {p.image ? (
+        <div className="project-thumb" aria-label={`Preview ${p.title}`}>
+          <img
+            className="project-thumb-img"
+            src={p.image}
+            alt={`Preview ${p.title}`}
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <div className="project-thumb project-thumb-fallback">
+          <span className="muted">No preview</span>
+        </div>
+      )}
 
-      {"role" in p && (
+      <div style={{ fontWeight: 900, marginTop: 10 }}>{p.title}</div>
+      <div className="muted" style={{ marginTop: 6, lineHeight: 1.7 }}>
+        {p.desc}
+      </div>
+
+      {"role" in p && p.role && (
         <div className="muted" style={{ marginTop: 8 }}>
           <b style={{ color: "var(--text)" }}>Role:</b> {p.role}
         </div>
       )}
 
-      {"stack" in p && (
+      {"stack" in p && Array.isArray(p.stack) && (
         <div style={{ marginTop: 10 }}>
-          {p.stack.map((t) => <span key={t} className="chip">{t}</span>)}
+          {p.stack.map((t) => (
+            <span key={t} className="chip">{t}</span>
+          ))}
         </div>
       )}
 
-      {"tools" in p && (
+      {"tools" in p && Array.isArray(p.tools) && (
         <div style={{ marginTop: 10 }}>
-          {p.tools.map((t) => <span key={t} className="chip">{t}</span>)}
+          {p.tools.map((t) => (
+            <span key={t} className="chip">{t}</span>
+          ))}
         </div>
       )}
 
-      {"outcome" in p && (
+      {"outcome" in p && p.outcome && (
         <div className="muted" style={{ marginTop: 10 }}>
           <b style={{ color: "var(--text)" }}>Outcome:</b> {p.outcome}
         </div>
       )}
-
-      <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
-        <a className="btn ghost" href="#" style={{ textDecoration: "none" }}>Detail</a>
-        <a className="btn" href="#" style={{ textDecoration: "none" }}>Open</a>
-      </div>
     </div>
   );
 }
