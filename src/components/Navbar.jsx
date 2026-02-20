@@ -6,38 +6,28 @@ export default function Navbar({ brand = "SKYRIO", items = [] }) {
   // lock scroll saat drawer open
   useEffect(() => {
     const prev = document.body.style.overflow;
-    if (open) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = prev;
-
+    document.body.style.overflow = open ? "hidden" : prev;
     return () => (document.body.style.overflow = prev);
   }, [open]);
 
-  // close ESC + close saat pindah ke desktop
+  // close ESC
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape") setOpen(false);
     }
-    function onResize() {
-      if (window.innerWidth >= 860) setOpen(false);
-    }
     window.addEventListener("keydown", onKey);
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("resize", onResize);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // close kalau klik link
   function onNavClick() {
     setOpen(false);
   }
 
   return (
     <>
-      <header style={styles.wrap}>
-        <a href="#home" style={styles.brandWrap} aria-label={`${brand} home`} onClick={onNavClick}>
-          <span style={styles.logoMark} aria-hidden="true">
+      <header className="navwrap">
+        <a href="#home" className="navbrand" aria-label={`${brand} home`} onClick={onNavClick}>
+          <span className="navlogo" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
               <defs>
                 <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
@@ -88,151 +78,57 @@ export default function Navbar({ brand = "SKYRIO", items = [] }) {
             </svg>
           </span>
 
-          <span style={styles.brandText}>
-            <span style={styles.brandTop}>{String(brand).toUpperCase()}</span>
-            <span style={styles.brandSub}>Website</span>
+          <span className="navbrandtext">
+            <span className="navbrandtop">{String(brand).toUpperCase()}</span>
+            <span className="navbrandsub">Website</span>
           </span>
         </a>
 
-        {/* Desktop nav */}
-        <nav className="nav-desktop" style={styles.nav} aria-label="Primary">
-          {items.map((it) => (
-            <a key={it.href} href={it.href} className="nav-link">
-              {it.label}
-            </a>
-          ))}
-          <a href="#contact" className="btn" style={{ textDecoration: "none" }}>
-            Contact
-          </a>
-        </nav>
-
-        {/* Mobile button */}
         <button
-          className="mobile-btn"
-          style={styles.mobileBtnInline}
+          className="navburger"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
       </header>
 
-      {/* Overlay (always render for transition) */}
-      <div
-        className={`mobile-overlay ${open ? "is-open" : ""}`}
-        onClick={() => setOpen(false)}
-      />
+      {/* overlay */}
+      <div className={`navoverlay ${open ? "is-open" : ""}`} onClick={() => setOpen(false)} />
 
-      {/* Drawer (always render for transition) */}
-      <div
-        className={`mobile-drawer ${open ? "is-open" : ""}`}
+      {/* right drawer */}
+      <aside
+        className={`navdrawer ${open ? "is-open" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation"
       >
-        <div style={styles.drawerTop}>
-          <div style={{ fontWeight: 950, letterSpacing: "0.12em", color: "var(--accent)" }}>
-            {String(brand).toUpperCase()}
-          </div>
-          <button className="mobile-btn" onClick={() => setOpen(false)} aria-label="Close menu">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+        <div className="navdrawerhead">
+          <div className="navdrawertitle">{String(brand).toUpperCase()}</div>
+          <button className="navclose" onClick={() => setOpen(false)} aria-label="Close menu">
+            ✕
           </button>
         </div>
 
-        {items.map((it) => (
-          <a key={it.href} href={it.href} onClick={onNavClick} className="mobile-link">
-            {it.label}
+        <nav className="navdrawerlinks">
+          {items.map((it) => (
+            <a key={it.href} href={it.href} onClick={onNavClick} className="navmLink">
+              {it.label}
+            </a>
+          ))}
+          <a href="#contact" onClick={onNavClick} className="navmLink navmCta">
+            Contact
           </a>
-        ))}
-        <a href="#contact" onClick={onNavClick} className="mobile-link mobile-cta">
-          Contact
-        </a>
-      </div>
-
-      {/* Switch desktop/mobile */}
-      <style>{`
-        .nav-desktop{ display:none; }
-        @media (min-width: 860px){
-          .nav-desktop{ display:flex; }
-          .mobile-btn{ display:none; }
-          .mobile-overlay{ display:none; }
-          .mobile-drawer{ display:none; }
-        }
-      `}</style>
+        </nav>
+      </aside>
     </>
   );
 }
-
-const styles = {
-  wrap: {
-    position: "sticky",
-    top: 0,
-    zIndex: 50,
-    backdropFilter: "blur(12px)",
-    background: "rgba(11,15,20,0.68)",
-    borderBottom: "1px solid rgba(139,189,203,0.12)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "12px 18px",
-    height: "var(--nav-h)",
-  },
-
-  brandWrap: {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    textDecoration: "none",
-    color: "inherit",
-    minWidth: 160,
-  },
-
-  logoMark: {
-    width: 34,
-    height: 34,
-    borderRadius: 12,
-    display: "grid",
-    placeItems: "center",
-    background: "rgba(139,189,203,0.10)",
-    border: "1px solid rgba(139,189,203,0.22)",
-    boxShadow: "0 10px 26px rgba(0,0,0,0.35)",
-    overflow: "hidden",
-  },
-
-  brandText: { display: "grid", lineHeight: 1.05 },
-
-  brandTop: {
-    fontWeight: 950,
-    letterSpacing: "0.18em",
-    color: "var(--accent)",
-    textTransform: "uppercase",
-    fontSize: 14,
-    textShadow: "0 0 18px rgba(139,189,203,0.22)",
-  },
-
-  brandSub: {
-    fontSize: 11,
-    fontWeight: 800,
-    letterSpacing: "0.10em",
-    color: "rgba(255,255,255,0.55)",
-    marginTop: 2,
-    textTransform: "uppercase",
-  },
-
-  nav: { display: "flex", gap: 14, alignItems: "center" },
-
-  mobileBtnInline: { color: "var(--text)" },
-
-  drawerTop: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 10,
-    marginBottom: 10,
-  },
-};
