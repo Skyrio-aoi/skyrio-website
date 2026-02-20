@@ -1,33 +1,22 @@
 export const posts = [
   {
-    title: "Kenapa UI Gaming yang Bagus Itu Harus “Calm”",
-    slug: "ui-gaming-calm",
+    id: "uiux-trends-2026",
+    tag: "Design",
+    title: "Tren Desain UI/UX 2026: Apa yang Perlu Diketahui Founder dan Desainer",
     date: "2026-02-11",
-    category: "Design",
-    content: `
-Saya suka tema gaming, tapi UI tetap harus nyaman.
-
-- Kontras cukup, jangan lebay.
-- Tipografi clear (judul tegas, body ringan).
-- Animasi seperlunya: untuk feedback, bukan pamer.
-
-Intinya: **gaming aesthetic** + **professional clarity**.
-    `.trim(),
+    excerpt:
+      "Tren UI/UX 2026 condong ke desain yang calm tapi premium: hirarki jelas, motion halus, aksesibilitas, dan keputusan visual yang fokus ke kenyamanan pemakaian.",
+    url: "https://raw-studio.translate.goog/blog/ui-and-ux-design-trends-for-2026-what-founders-and-designers-need-to-know/?_x_tr_sl=en&_x_tr_tl=id&_x_tr_hl=id&_x_tr_pto=tc",
+    sourceLabel: "Raw Studio (translated)",
   },
   {
-    title: "Portfolio Data Analyst yang Dicari Recruiter",
-    slug: "portfolio-data-analyst",
+    id: "website-trends-2026",
+    tag: "Design",
+    title: "Tren Website Tahun 2026: Arah Desain dan Praktik yang Akan Dominan",
     date: "2026-02-11",
-    category: "Data",
-    content: `
-Struktur yang enak:
-1) Problem statement
-2) Dataset + cleaning
-3) Metode (SQL/Python)
-4) Visual & insight
-5) Recommendation
-
-Bukan cuma chart: harus ada keputusan yang di-support data.
-    `.trim(),
+    excerpt:
+      "Yang bakal dominan itu bukan gimmick: performance, navigasi jelas, layout modular, tipografi rapi, dan konsistensi komponen biar website terasa cepat dan profesional.",
+    url: "https://desainkreasi.com/blog/business/tren-website-tahun-2026.html",
+    sourceLabel: "DesainKreasi",
   },
 ];

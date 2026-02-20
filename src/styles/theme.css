@@ -35,6 +35,16 @@ img{ max-width:100%; display:block; }
   box-shadow: var(--shadow);
 }
 
+/* subtle interactive lift */
+.card.is-hoverable{
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+.card.is-hoverable:hover{
+  transform: translateY(-2px);
+  border-color: rgba(139,189,203,0.36);
+  background: rgba(255,255,255,0.075);
+}
+
 .btn{
   border: 1px solid rgba(139,189,203,0.45);
   background: rgba(139,189,203,0.14);
@@ -49,11 +59,12 @@ img{ max-width:100%; display:block; }
 
 .chip{
   display:inline-flex;
+  align-items:center;
   border: 1px solid rgba(139,189,203,0.35);
   background: rgba(139,189,203,0.10);
   padding: 6px 10px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 13px;
   margin: 6px 6px 0 0;
 }
@@ -72,6 +83,7 @@ img{ max-width:100%; display:block; }
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.03);
+  transition: transform 180ms ease, border-color 180ms ease;
 }
 
 .project-card .project-thumb-img{
@@ -79,10 +91,98 @@ img{ max-width:100%; display:block; }
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1);
+  transition: transform 220ms ease;
+}
+
+.project-card .project-thumb:hover{
+  border-color: rgba(139,189,203,0.28);
+  transform: translateY(-1px);
+}
+
+.project-card .project-thumb:hover .project-thumb-img{
+  transform: scale(1.03);
 }
 
 .project-card .project-thumb-fallback{
   aspect-ratio: 16 / 9;
   display: grid;
   place-items: center;
+}
+
+/* ===== Blog cards (biar excerpt ga kepanjangan) ===== */
+.post-card p{
+  overflow: hidden;
+
+  /* clamp (Chrome/Safari/Edge) */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+
+  /* standard property (untuk linter/compat) */
+  line-clamp: 4;
+}
+
+/* Disable placeholder links/buttons */
+.btn.is-disabled{
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===== Skills upgrade (kalau kamu pakai Skills.jsx versi bar) ===== */
+.skills-grid{
+  display:grid;
+  gap:16px;
+}
+@media (min-width: 860px){
+  .skills-grid{ grid-template-columns: 1fr 1fr; }
+}
+
+.skill-item{
+  padding: 10px 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+}
+
+.skill-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.skill-pill{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid rgba(139,189,203,0.28);
+  background: rgba(139,189,203,0.10);
+}
+
+.skill-bar{
+  margin-top: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.skill-bar-fill{
+  height:100%;
+  border-radius: 999px;
+  background: rgba(139,189,203,0.35);
+  width: 40%;
+}
+.skill-bar-fill.lvl-1{ width: 35%; }
+.skill-bar-fill.lvl-2{ width: 65%; }
+.skill-bar-fill.lvl-3{ width: 90%; }
+
+/* About mini cards */
+.about-grid .about-mini{
+  min-height: 140px;
 }

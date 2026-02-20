@@ -3,8 +3,7 @@ import { webProjects, dataProjects } from "../data/portfolio";
 
 function ProjectCard({ p }) {
   return (
-    <div className="card project-card" style={{ padding: 14 }}>
-      {/* Thumbnail (preview-only, non-clickable) */}
+    <div className="card project-card is-hoverable" style={{ padding: 14 }}>
       {p.image ? (
         <div className="project-thumb" aria-label={`Preview ${p.title}`}>
           <img
@@ -26,7 +25,7 @@ function ProjectCard({ p }) {
       </div>
 
       {"role" in p && p.role && (
-        <div className="muted" style={{ marginTop: 8 }}>
+        <div className="muted" style={{ marginTop: 10 }}>
           <b style={{ color: "var(--text)" }}>Role:</b> {p.role}
         </div>
       )}
@@ -48,7 +47,7 @@ function ProjectCard({ p }) {
       )}
 
       {"outcome" in p && p.outcome && (
-        <div className="muted" style={{ marginTop: 10 }}>
+        <div className="muted" style={{ marginTop: 12, lineHeight: 1.7 }}>
           <b style={{ color: "var(--text)" }}>Outcome:</b> {p.outcome}
         </div>
       )}
