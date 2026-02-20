@@ -838,9 +838,15 @@ hr{
 .project-desc{
   margin-top: 8px;
   line-height: 1.65;
+
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  /* standard (biar warning hilang) */
+  box-orient: vertical;
+  line-clamp: 3;
+
   overflow: hidden;
 }
 
@@ -904,9 +910,15 @@ hr{
 .post-excerpt{
   margin: 0;
   line-height: 1.7;
+
   display: -webkit-box;
-  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+
+  /* standard */
+  box-orient: vertical;
+  line-clamp: 4;
+
   overflow: hidden;
 }
 .post-actions{
