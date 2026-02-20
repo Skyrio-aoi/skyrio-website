@@ -55,7 +55,7 @@ export default function App() {
           marginTop: 24,
         }}
       >
-        © {new Date().getFullYear()} {profile.brand} — Gaming x Professional Portfolio
+        © {new Date().getFullYear()} {profile.brand} WEBSITE
       </footer>
     </div>
   );
