@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
-import { profile } from "./data/profile";
 
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -13,50 +14,26 @@ import Contact from "./sections/Contact";
 export default function App() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const seen = sessionStorage.getItem("skyrio_loader_seen");
-    if (seen) setLoading(false);
-  }, []);
-
-  const finish = () => {
-    sessionStorage.setItem("skyrio_loader_seen", "1");
-    setLoading(false);
-  };
-
-  if (loading) return <Loader onDone={finish} />;
-
   return (
-    <div>
-      <Navbar
-        brand={profile.brand}
-        items={[
-          { label: "About", href: "#about" },
-          { label: "Skills", href: "#skills" },
-          { label: "Portfolio", href: "#portfolio" },
-          { label: "Blog", href: "#blog" },
-        ]}
-      />
-
-      <main className="container">
-        <Hero profile={profile} />
-        <About />
-        <Skills />
-        <Portfolio />
-        <Blog />
-        <Contact />
-      </main>
-
-      <footer
-        className="muted"
-        style={{
-          padding: "26px 24px",
-          textAlign: "center",
-          borderTop: "1px solid rgba(139,189,203,0.12)",
-          marginTop: 24,
-        }}
-      >
-        © {new Date().getFullYear()} {profile.brand} WEBSITE
-      </footer>
-    </div>
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <Loader key="loader" duration={3000} onDone={() => setLoading(false)} />
+      ) : (
+        <motion.div
+          key="app"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Navbar />
+          <Hero />
+          <About />
+          <Skills />
+          <Portfolio />
+          <Blog />
+          <Contact />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
