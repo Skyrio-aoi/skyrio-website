@@ -124,7 +124,7 @@ export default function Contact() {
                 Send to WhatsApp
               </button>
               <span className="muted contact-note">
-                (Tidak mengirim email. Ini hanya membuka WhatsApp dengan template.)
+              
               </span>
             </div>
           </form>
