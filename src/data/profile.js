@@ -15,9 +15,9 @@ export const profile = {
   },
 
   stats: [
-    { label: "Web Apps", value: "10" },
-    { label: "Data Projects", value: "5" },
-    { label: "Dashboards", value: "5" },
+    { label: "Web Apps", value: "7+" },
+    { label: "UI Screens", value: "20+" },
+    { label: "Data Projects", value: "10+" },
     { label: "Years Learning", value: "3+" },
   ],
 
