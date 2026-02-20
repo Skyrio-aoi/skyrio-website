@@ -15,10 +15,10 @@ export const profile = {
   },
 
   stats: [
-    { label: "Web Apps", value: "3" },
-    { label: "Data Projects", value: "2" },
-    { label: "Dashboards", value: "2" },
-    { label: "Years Learning", value: "2+" },
+    { label: "Web Apps", value: "10" },
+    { label: "Data Projects", value: "5" },
+    { label: "Dashboards", value: "5" },
+    { label: "Years Learning", value: "3+" },
   ],
 
   highlights: [
