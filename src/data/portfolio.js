@@ -7,6 +7,8 @@ export const webProjects = [
     outcome:
       "Auth JWT + proteksi route, CRUD event & peserta, pencarian/filter, serta struktur API REST yang rapi untuk pengembangan lanjut.",
     image: "/portfolio/eventease.png",
+    // live: "https://...",
+    // repo: "https://github.com/..."
   },
   {
     title: "Cicak Store",

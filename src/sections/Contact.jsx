@@ -1,62 +1,135 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 
 export default function Contact() {
-  // 085888018846 -> 6285888018846 (hapus 0 depan, ganti 62)
+  // 085888018846 -> 6285888018846
   const PHONE = "6285888018846";
+
+  const [status, setStatus] = useState({ type: "", msg: "" });
+
+  const baseMessage = useMemo(() => {
+    return [
+      "Halo, saya [Nama].",
+      "Email: [email]",
+      "Topik: [kolaborasi/tanya]",
+      "Pesan: [isi pesan]",
+    ].join("\n");
+  }, []);
+
+  function buildWAUrl({ nama, email, pesan }) {
+    const text =
+      `Halo, saya ${nama || "(tanpa nama)"}.\n` +
+      `Email: ${email || "-"}\n` +
+      `Pesan: ${pesan}`;
+    return `https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`;
+  }
+
+  function openWA(url) {
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.href = url;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setStatus({ type: "", msg: "" });
 
     const fd = new FormData(e.currentTarget);
     const nama = (fd.get("nama") || "").toString().trim();
     const email = (fd.get("email") || "").toString().trim();
     const pesan = (fd.get("pesan") || "").toString().trim();
 
-    // Minimal guardrail: jangan arahkan kalau pesan kosong
     if (!pesan) {
-      alert("Pesan jangan kosong.");
+      setStatus({ type: "error", msg: "Pesan jangan kosong." });
       return;
     }
 
-    const text =
-      `Halo, saya ${nama || "(tanpa nama)"}.\n` +
-      `Email: ${email || "-"}\n` +
-      `Pesan: ${pesan}`;
+    // Email basic check (optional, ga maksa)
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      setStatus({ type: "error", msg: "Format email kelihatan salah." });
+      return;
+    }
 
-    const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`;
-
-    // Buka WhatsApp (mobile app / WhatsApp Web)
-    const opened = window.open(url, "_blank", "noopener,noreferrer");
-
-    // Fallback kalau popup diblok
-    if (!opened) window.location.href = url;
-
-    // Optional: reset form setelah membuka WA
+    const url = buildWAUrl({ nama, email, pesan });
+    openWA(url);
     e.currentTarget.reset();
+    setStatus({ type: "ok", msg: "Membuka WhatsApp…" });
+  };
+
+  const quickWA = () => {
+    const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(baseMessage)}`;
+    openWA(url);
   };
 
   return (
-    <section id="contact" className="card" style={{ padding: 18, marginTop: 16 }}>
-      <h2 style={{ margin: 0 }}>Contact</h2>
-      <p className="muted">Kalau mau kolaborasi atau tanya-tanya, kirim pesan.</p>
+    <section id="contact" className="card section-card">
+      <div className="section-head">
+        <h2 className="section-title">Contact</h2>
+        <p className="section-subtitle muted">
+          Kolaborasi, project, atau tanya cepat — paling cepat via WhatsApp.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10, marginTop: 10 }}>
-        <input name="nama" placeholder="Nama" style={inputStyle} />
-        <input name="email" placeholder="Email" style={inputStyle} />
-        <textarea name="pesan" placeholder="Pesan" rows={4} style={inputStyle} />
-        <button className="btn" type="submit">
-          Send
-        </button>
-      </form>
+      <div className="contact-grid">
+        {/* Left: info */}
+        <div className="contact-side">
+          <div className="contact-box">
+            <div className="contact-kicker">Fast response</div>
+            <div className="contact-title">WhatsApp</div>
+            <div className="muted contact-desc">
+              Klik tombol di bawah untuk buka template pesan. Atau isi form supaya otomatis rapi.
+            </div>
+
+            <div className="contact-actions">
+              <button className="btn" type="button" onClick={quickWA}>
+                Message on WhatsApp
+              </button>
+              <a className="btn ghost" href={`https://wa.me/${PHONE}`} target="_blank" rel="noreferrer">
+                Open Chat
+              </a>
+            </div>
+
+            <div className="contact-hint muted">
+              Jam respon: 09.00–22.00 WIB (kalau urgent, tulis “URGENT” di awal pesan).
+            </div>
+          </div>
+        </div>
+
+        {/* Right: form */}
+        <div className="contact-form card">
+          <form onSubmit={handleSubmit} className="contact-form-inner">
+            <div className="contact-row">
+              <div className="field">
+                <label className="field-label muted" htmlFor="nama">Nama</label>
+                <input id="nama" name="nama" placeholder="Nama kamu" />
+              </div>
+
+              <div className="field">
+                <label className="field-label muted" htmlFor="email">Email (opsional)</label>
+                <input id="email" name="email" placeholder="email@domain.com" />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="field-label muted" htmlFor="pesan">Pesan</label>
+              <textarea id="pesan" name="pesan" placeholder="Tulis kebutuhan kamu singkat + jelas…" rows={5} />
+            </div>
+
+            {status.msg ? (
+              <div className={`contact-status ${status.type === "error" ? "is-error" : "is-ok"}`}>
+                {status.msg}
+              </div>
+            ) : null}
+
+            <div className="contact-submit">
+              <button className="btn" type="submit">
+                Send to WhatsApp
+              </button>
+              <span className="muted contact-note">
+                (Tidak mengirim email. Ini hanya membuka WhatsApp dengan template.)
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
   );
 }
-
-const inputStyle = {
-  padding: "12px 12px",
-  borderRadius: 12,
-  border: "1px solid rgba(139,189,203,0.25)",
-  background: "rgba(255,255,255,0.04)",
-  color: "var(--text)",
-  outline: "none",
-};

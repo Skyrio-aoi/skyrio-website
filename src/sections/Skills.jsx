@@ -36,7 +36,7 @@ const skills = [
     title: "UI/UX",
     subtitle: "Desain sistematis biar UI nggak asal",
     items: [
-      { name: "Figma", level: 2, note: "Layout & component thinking" },
+      { name: "Figma", level: 3, note: "Layout & component thinking" },
       { name: "Wireframing", level: 2, note: "Flow & struktur halaman" },
       { name: "Design System", level: 1, note: "Token warna, spacing, komponen" },
       { name: "Prototyping", level: 1, note: "Interaksi dasar" },
@@ -62,41 +62,40 @@ function levelLabel(level) {
 
 export default function Skills() {
   return (
-    <section id="skills" className="card" style={{ padding: 18, marginTop: 16 }}>
-      <h2 style={{ margin: 0 }}>Skills</h2>
-      <p className="muted" style={{ marginTop: 8 }}>
-        Bukan sekadar daftar—ini saya kelompokkan berdasarkan level dan pemakaian di project.
-      </p>
+    <section id="skills" className="card section-card">
+      <div className="section-head">
+        <h2 className="section-title">Skills</h2>
+        <p className="section-subtitle">
+          Saya kelompokkan berdasarkan level dan pemakaian di project.
+        </p>
+      </div>
 
-      <div className="skills-grid" style={{ marginTop: 12 }}>
+      <div className="skills-grid">
         {skills.map((group) => (
-          <div key={group.title} className="card skill-card" style={{ padding: 14 }}>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-              <div>
-                <div style={{ fontWeight: 900 }}>{group.title}</div>
-                <div className="muted" style={{ marginTop: 4, fontSize: 13, lineHeight: 1.5 }}>
-                  {group.subtitle}
-                </div>
-              </div>
+          <div key={group.title} className="card skill-card compact">
+            <div className="skill-card-head">
+              <div className="skill-card-title">{group.title}</div>
+              <div className="muted skill-card-sub">{group.subtitle}</div>
             </div>
 
-            <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
+            {/* items dibuat 2 kolom di desktop biar pendek */}
+            <div className="skill-items compact">
               {group.items.map((it) => (
-                <div key={it.name} className="skill-item">
-                  <div className="skill-row">
-                    <div style={{ fontWeight: 800 }}>{it.name}</div>
-                    <span className={`skill-pill lvl-${it.level}`}>{levelLabel(it.level)}</span>
+                <div key={it.name} className="skill-item compact">
+                  <div className="skill-row compact">
+                    <div className="skill-name">{it.name}</div>
+
+                    <div className="skill-right">
+                      <span className={`skill-pill lvl-${it.level}`}>{levelLabel(it.level)}</span>
+                      <span className={`dot lvl-${it.level}`} aria-hidden="true" />
+                    </div>
                   </div>
 
-                  <div className="skill-bar">
+                  <div className="skill-bar compact">
                     <div className={`skill-bar-fill lvl-${it.level}`} />
                   </div>
 
-                  {it.note && (
-                    <div className="muted" style={{ fontSize: 13, marginTop: 4, lineHeight: 1.5 }}>
-                      {it.note}
-                    </div>
-                  )}
+                  {it.note && <div className="muted skill-note compact">{it.note}</div>}
                 </div>
               ))}
             </div>
